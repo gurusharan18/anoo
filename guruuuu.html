@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Meri Anoo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+overflow:hidden;
+font-family:Poppins;
+color:white;
+background:radial-gradient(circle at 20% 20%,#0f4c5c,#1b4332,#2a2a72,#3a0ca3);
+background-size:300% 300%;
+animation:bgMove 18s ease infinite;
+}
+
+/* subtle moving background */
+
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* scenes */
+
+.scene{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+transition:1s;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+/* title */
+
+.title{
+font-family:'Playfair Display';
+font-size:85px;
+letter-spacing:5px;
+color:#e0fbfc;
+text-shadow:0 0 25px rgba(0,255,200,0.4);
+}
+
+.subtitle{
+opacity:0.8;
+color:#bde0fe;
+}
+
+/* envelope */
+
+#envelope{
+font-size:200px;
+cursor:pointer;
+animation:float 3s ease-in-out infinite;
+filter:drop-shadow(0 0 20px rgba(255,255,255,0.6));
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-20px)}
+}
+
+/* cats in background */
+
+.cat{
+position:absolute;
+font-size:45px;
+opacity:0.35;
+cursor:pointer;
+transition:0.3s;
+}
+
+.cat:hover{
+opacity:0.8;
+transform:scale(1.2);
+}
+
+/* message bubble */
+
+.bubble{
+position:absolute;
+background:white;
+color:#333;
+padding:8px 14px;
+border-radius:15px;
+font-size:13px;
+transform:translate(-50%,-120%);
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* messenger cat */
+
+#catMessenger{
+font-size:120px;
+animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-12px)}
+}
+
+/* letter */
+
+#letter{
+font-size:85px;
+cursor:pointer;
+}
+
+/* popup letter */
+
+#popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+background:#fff8f0;
+color:#333;
+width:65%;
+max-width:700px;
+padding:45px;
+border-radius:20px;
+box-shadow:0 20px 60px rgba(0,0,0,0.5);
+transition:0.5s;
+max-height:80vh;
+overflow:auto;
+}
+
+#popup.show{
+transform:translate(-50%,-50%) scale(1);
+}
+
+#text{
+line-height:1.8;
+font-size:18px;
+}
+
+/* small amount of petals */
+
+.petal{
+position:absolute;
+font-size:18px;
+opacity:0.5;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh)}
+100%{transform:translateY(110vh)}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- intro -->
+
+<div id="scene1" class="scene">
+
+<div class="title">Meri Anoo</div>
+<div class="subtitle">a small message from guru</div>
+
+</div>
+
+<!-- envelope -->
+
+<div id="scene2" class="scene hidden">
+
+<div id="envelope">💌</div>
+<p>Click the envelope</p>
+
+</div>
+
+<!-- messenger -->
+
+<div id="scene3" class="scene hidden">
+
+<div id="catMessenger">🐱</div>
+<div id="letter">📜</div>
+<p>Click the letter</p>
+
+</div>
+
+<!-- letter -->
+
+<div id="popup">
+<p id="text"></p>
+</div>
+
+<script>
+
+/* background cats */
+
+for(let i=0;i<8;i++){
+
+let cat=document.createElement("div")
+cat.className="cat"
+cat.innerText="🐱"
+
+cat.style.left=Math.random()*100+"vw"
+cat.style.top=Math.random()*100+"vh"
+
+cat.onclick=()=>{
+
+let bubble=document.createElement("div")
+bubble.className="bubble"
+
+bubble.innerText=Math.random()>0.3 ? "Love uhh ❤️" : "Sorryy ❤️"
+
+cat.appendChild(bubble)
+
+setTimeout(()=>bubble.remove(),2000)
+
+}
+
+document.body.appendChild(cat)
+
+}
+
+/* few petals */
+
+for(let i=0;i<12;i++){
+
+let p=document.createElement("div")
+p.className="petal"
+p.innerText="🌸"
+
+p.style.left=Math.random()*100+"vw"
+p.style.animationDuration=(8+Math.random()*6)+"s"
+
+document.body.appendChild(p)
+
+}
+
+/* scene transitions */
+
+setTimeout(()=>{
+
+scene1.classList.add("hidden")
+scene2.classList.remove("hidden")
+
+},3000)
+
+envelope.onclick=()=>{
+
+scene2.classList.add("hidden")
+scene3.classList.remove("hidden")
+
+}
+
+/* open letter */
+
+let popup=document.getElementById("popup")
+
+letter.onclick=()=>{
+
+popup.classList.add("show")
+typeWriter()
+
+}
+
+/* message */
+
+let message=`heyy anoo , i know things have been very badd these days , i think i made a very huge mistake , things have been very rough for uh these days , abb kya bolu , tere dil oe chot pounchi hai iss situation ki vagha se , bohutt regret hora hai tuje bhi muje bhi , me toh yaha baith sakta hu , parr tu bohutt buri situation me hai abii i knoww , but me sorry ke alawa kuch bhi nhi kar paara hu , na motivate , na acche se support, na emotional wall ban pa rha huu , meri harkatr se tuje bhout chid horhi hai ik , par all i can say is sorry , parr sacchii anooo , dil see dil kee andar see , koi bhi situation aaye , I LOVE YOU , ye sachhai kuch bhi nahi badal sakti hai , tuje iss situation ke baad same rehna ik mushkil hogaa bohutt mushkil hoga , and i accepct it , par abb kuch nhi kar akte , all i can say is tu jaise bhi hai , muje pyaari hai , ik iss situation me accha nhi lagega mera i love uh bolna , parr
+
+I LOVE UH < ye baat hai aur rehegi
+
+sorryy anooo
+
+love uhh ,
+
+-guru`
+
+let i=0
+
+function typeWriter(){
+
+let text=document.getElementById("text")
+text.innerHTML=""
+i=0
+
+function typing(){
+
+if(i<message.length){
+
+text.innerHTML+=message.charAt(i)
+i++
+setTimeout(typing,25)
+
+}
+
+}
+
+typing()
+
+}
+
+</script>
+
+</body>
+</html>
